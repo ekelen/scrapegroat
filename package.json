@@ -1,0 +1,37 @@
+{
+  "name": "scrapegroat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "preinstall": "npx npm-force-resolutions",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier \"./src/**/*.{js, css}\" --write",
+    "lint": "eslint \"./src/**/*.{js, jsx}\" --quiet",
+    "dev": "parcel src/index.html"
+  },
+  "author": "ekelen",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.14.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "parcel-bundler": "^1.12.4",
+    "prettier": "^2.2.0"
+  },
+  "dependencies": {
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  },
+  "resolutions": {
+    "node-forge": "0.10.0"
+  },
+  "browserslist": [
+    "last 1 version",
+    "> 2%"
+  ]
+}

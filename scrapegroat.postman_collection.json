@@ -1,0 +1,77 @@
+{
+	"info": {
+		"_postman_id": "35f28c17-4f35-4817-9f40-ca149bd50383",
+		"name": "scrapegroat",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://numismatics.org/search/results?q=imagesavailable%3Atrue+AND+department_facet%3A%22Medieval%22&lang=en",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f14a2243-5fd9-47bc-9e5b-ddd73395c4a6",
+						"exec": [
+							"const $ = cheerio.load(pm.response.text())",
+							"const resultLinks = $('.row .result-doc a[href$=\"en\"]')",
+							"const coinIds = resultLinks.map(function(_, x) {return $(x).attr('href')}).map((_, x) => {",
+							"    try {",
+							"        const found = x.match(/[0-9]+\\.[0-9]+\\.[0-9]+/g)[0]",
+							"        return found",
+							"    } catch (e) {",
+							"        return null",
+							"    }",
+							"})",
+							"const pageMax = 20",
+							"",
+							"pm.test(\"between 0 and pageMax results\", () => {",
+							"    const n = $('.row .result-doc').length",
+							"    pm.expect(n).to.be.above(0).and.at.most(pageMax)",
+							"})",
+							"pm.test(\"same number of valid coinIds as results\", () => {",
+							"    const n = $('.row .result-doc').length",
+							"    pm.expect(coinIds).to.have.lengthOf(n)",
+							"})",
+							"",
+							"pm.test(\"has a string that provides total number of results\", () => {",
+							"    const totalHits = () => $('.paging_div')[0].children[0].children[0].data.match(/[0-9]+ total results/)[0].match(/[0-9]+/)[0]",
+							"    pm.expect(totalHits).not.to.throw",
+							"    pm.expect(totalHits()).to.be.a(\"string\")",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://numismatics.org/search/results?q=imagesavailable%3Atrue+AND+department_facet%3A%22Medieval%22&lang=en",
+					"protocol": "http",
+					"host": [
+						"numismatics",
+						"org"
+					],
+					"path": [
+						"search",
+						"results"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "imagesavailable%3Atrue+AND+department_facet%3A%22Medieval%22"
+						},
+						{
+							"key": "lang",
+							"value": "en"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

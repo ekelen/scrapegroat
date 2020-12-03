@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { scrapeForTotal, scrapeGroats } from "./scraping";
+import { scrapeForTotal, scrapeGroats } from "./scraping.js";
 
 const getRandomInt = (max) => {
   return Math.floor(Math.random() * Math.floor(max));

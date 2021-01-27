@@ -14,8 +14,10 @@
   "author": "ekelen",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.12.9",
-    "babel-eslint": "^10.1.0",
+    "@babel/core": "^7.12.10",
+    "@babel/eslint-parser": "^7.12.1",
+    "@babel/preset-env": "^7.12.11",
+    "@babel/preset-react": "^7.12.10",
     "eslint": "^7.14.0",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-import": "^2.22.1",
@@ -35,5 +37,11 @@
   "browserslist": [
     "last 1 version",
     "> 2%"
-  ]
+  ],
+  "babel": {
+    "presets": [
+      "@babel/preset-react",
+      "@babel/preset-env"
+    ]
+  }
 }

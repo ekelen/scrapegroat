@@ -1,7 +1,7 @@
 const getValidCoinIdFromString = (str = "") =>
   str.match(/[0-9]+\.[0-9]+\.[0-9]+/g);
 
-export const scrapeForTotal = ({ decoder, value }) => {
+const scrapeForTotal = ({ decoder, value }) => {
   let parser = new DOMParser();
   const decoded = decoder.decode(value);
   const document = parser.parseFromString(decoded, "text/html");
@@ -22,7 +22,7 @@ export const scrapeForTotal = ({ decoder, value }) => {
   }
 };
 
-export const parseGroatNode = (coin) => {
+const parseGroatNode = (coin) => {
   let name = "";
   let id = "";
   let date = "";
@@ -35,28 +35,34 @@ export const parseGroatNode = (coin) => {
   if (!(coin && coin.nodeType === Node.ELEMENT_NODE)) {
     console.warn('Missing or invalid HTML node "coin" given: ', coin);
   } else {
-    // console.log(`coin:`, coin);
-    const fullName = coin.querySelector("h4", "a")?.innerText || "";
+    let fullNameNode = null;
+    const fullName =
+      (fullNameNode = coin.querySelector("h4", "a")) !== null &&
+      fullNameNode.innerText;
     const idMatch = getValidCoinIdFromString(fullName) || [];
     id = idMatch[0] || "";
     source = `http://numismatics.org/collection/${id && id + "?lang=en"}`;
 
     name =
       fullName && id ? fullName.slice(0, (id.length + 1) * -1) : fullName || id;
-    // console.log(`id.length:`, id.length);
-    // console.log(`name:`, name);
     const [obv = "", rev = ""] = Object.values(
       coin.querySelectorAll(".side-thumbnail")
     ).map((c) => c.attributes["src"]["nodeValue"]);
     imgSrcObv = obv;
     imgSrcRev = rev;
     const cellSelectorResults = Array.from(coin.querySelectorAll("dt"));
-    date =
-      cellSelectorResults.find((el) => el.innerText === "Date")?.nextSibling
-        ?.innerText || "";
-    denomination =
-      cellSelectorResults.find((el) => el.innerText === "Denomination")
-        ?.nextSibling?.innerText || "";
+    const dateSibling =
+      cellSelectorResults.find((el) => el.innerText === "Date") || {};
+    const {
+      nextSibling: { innerText: dateText = "" } = { innerText: "" },
+    } = dateSibling;
+    const denominationSibling =
+      cellSelectorResults.find((el) => el.innerText === "Denomination") || {};
+    const {
+      nextSibling: { innerText: denominationText = "" } = { innerText: "" },
+    } = denominationSibling;
+    date = dateText;
+    denomination = denominationText;
     name = !date ? name : name.slice(0, name.indexOf(date) - 2);
     region = name.slice(name.lastIndexOf(",")).slice(2);
     name = !region ? name : name.slice(0, name.indexOf(region) - 2);
@@ -64,7 +70,7 @@ export const parseGroatNode = (coin) => {
   return { name, id, date, denomination, imgSrcObv, imgSrcRev, source, region };
 };
 
-export const scrapeGroats = ({ idx, offset }) => ({ decoder, value }) => {
+const scrapeGroats = ({ idx, offset }) => ({ decoder, value }) => {
   let groatData = null;
   let resultsProcessed = offset;
 
@@ -83,3 +89,5 @@ export const scrapeGroats = ({ idx, offset }) => ({ decoder, value }) => {
   }
   return { groatData, resultsProcessed };
 };
+
+module.exports = { scrapeGroats, parseGroatNode, scrapeForTotal };

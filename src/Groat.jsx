@@ -1,7 +1,7 @@
 import React from "react";
 
 const Groat = ({ groatData }) => {
-  const { name, region, date, source, imgSrcObv, imgSrcRev } = groatData || {};
+  const { name, region, date, source, imgSrcObv, imgSrcRev } = groatData;
   return (
     <div className="groat-data">
       <div className="groat-images">

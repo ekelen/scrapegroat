@@ -1,6 +1,6 @@
 import React from "react";
 
-import { dateString } from "./util";
+import { dateString } from "./util.js";
 
 const Header = () => {
   return (

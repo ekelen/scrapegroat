@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 import { scrapeForTotal, scrapeGroats } from "./scraping.js";
 
 const getRandomInt = (max) => {
@@ -37,7 +38,12 @@ export const scrape = (position) => {
   };
 
   return fetch(
-    `http://numismatics.org/search/results?q=%28denomination_facet%3A%22groat%22+OR+denomination_facet%3A%22gros%22+OR+denomination_facet%3A%22gros+tournois%22+OR+denomination_facet%3A%22groschen%22+OR+denomination_facet%3A%22grosso%22+OR+denomination_facet%3A%22grosso+tornese%22+OR+denomination_facet%3A%22groten%22+OR+denomination_facet%3A%22tournosgroschen%22%29+AND+department_facet%3A%22Medieval%22+AND+imagesavailable%3Atrue&lang=en&start=${page}`
+    // `http://numismatics.org/search/results?q=%28denomination_facet%3A%22groat%22+OR+denomination_facet%3A%22gros%22+OR+denomination_facet%3A%22gros+tournois%22+OR+denomination_facet%3A%22groschen%22+OR+denomination_facet%3A%22grosso%22+OR+denomination_facet%3A%22grosso+tornese%22+OR+denomination_facet%3A%22groten%22+OR+denomination_facet%3A%22tournosgroschen%22%29+AND+department_facet%3A%22Medieval%22+AND+imagesavailable%3Atrue&lang=en&start=${page}`
+    "https://servelessviaapi8yocmvrg-myhandler2page.functions.fnc.fr-par.scw.cloud",
+    {
+      method: "POST",
+      body: JSON.stringify({ page }),
+    }
   ).then(
     validResponse((response) => {
       const decoder = new TextDecoder("utf-8");
@@ -60,7 +66,7 @@ export const getTotalResults = () => {
   };
 
   return fetch(
-    `http://numismatics.org/search/results?q=%28denomination_facet%3A%22groat%22+OR+denomination_facet%3A%22gros%22+OR+denomination_facet%3A%22gros+tournois%22+OR+denomination_facet%3A%22groschen%22+OR+denomination_facet%3A%22grosso%22+OR+denomination_facet%3A%22grosso+tornese%22+OR+denomination_facet%3A%22groten%22+OR+denomination_facet%3A%22tournosgroschen%22%29+AND+department_facet%3A%22Medieval%22+AND+imagesavailable%3Atrue&lang=en`
+    `https://servelessviaapi8yocmvrg-myhandler2.functions.fnc.fr-par.scw.cloud`
   ).then(
     validResponse((response) => {
       const decoder = new TextDecoder("utf-8");

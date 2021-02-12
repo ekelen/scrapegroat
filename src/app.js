@@ -1,63 +1,33 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { render } from "react-dom";
 
-import { getRandomPositionFromTotal } from "./util";
-
-import { getTotalResults, scrape } from "./useGetGroatData.js";
-
+import Footer from "./Footer.jsx";
 import Groat from "./Groat.jsx";
 import Header from "./Header.jsx";
-import Footer from "./Footer.jsx";
+
+const GROAT_ENDPOINT = "https://www.ersk.me/groats";
 
 const App = () => {
   const [groatLoading, setGroatLoading] = useState(false);
   const [groat, setGroat] = useState(null);
   const [groatError, setGroatError] = useState(null);
 
-  const [positionLoading, setPositionLoading] = useState(false);
-  const [position, setPosition] = useState(-1);
-
-  const createValidPosition = useCallback(() => {
-    setPositionLoading(true);
-    getTotalResults()
-      .then((n) => {
-        if (n === 0) {
-          throw new Error("No results found from external source.");
-        }
-        const pos = getRandomPositionFromTotal(n);
-        setPosition(pos);
-      })
-      .catch((e) => {
-        setGroatError(e);
-      })
-      .finally(() => setPositionLoading(false));
-  }, []);
-
-  const getGroatData = useCallback(() => {
-    if (!groatError && !groat && position >= 0) {
+  useEffect(() => {
+    if (!groat && !groatError && !groatLoading) {
       setGroatLoading(true);
-
-      return scrape(position)
-        .then((data) => {
-          if (!data) {
-            setGroat(null);
-            throw new Error("Could not get data from the groat mint.");
-          }
-          setGroatError(null);
-          setGroat(data);
+      fetch(GROAT_ENDPOINT)
+        .then((result) => result.json())
+        .then(({ coin, error }) => {
+          setGroatError(error);
+          setGroat(coin);
         })
-        .catch(setGroatError)
+        .catch((error) => {
+          setGroatError(error);
+          setGroat(null);
+        })
         .finally(() => setGroatLoading(false));
     }
-  }, [position, setGroat, setGroatLoading, setGroatError, groat, groatError]);
-
-  useEffect(() => {
-    createValidPosition();
-  }, [createValidPosition]);
-
-  useEffect(() => {
-    getGroatData();
-  }, [getGroatData]);
+  }, [groat, groatLoading, groatError]);
 
   return (
     <React.StrictMode>
@@ -69,7 +39,7 @@ const App = () => {
             Sorry, no groats today. Reason: <em>{groatError.toString()}</em>
           </div>
         )}
-        {(positionLoading || groatLoading) && <div>Loading...</div>}
+        {groatLoading && <div>Loading...</div>}
       </main>
       <Footer />
     </React.StrictMode>

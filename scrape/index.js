@@ -13,7 +13,7 @@ const getToday = () => {
   date.setHours(0, 0, 0, 0);
   return date;
 };
-const dateCreated = getToday().toISOString();
+const dateCreated = () => getToday().toISOString();
 
 const getRandomInt = (max) => {
   return Math.floor(Math.random() * Math.floor(max));
@@ -129,13 +129,13 @@ module.exports.main = async () => {
       const {
         payload: { total, pageSize },
       } = result;
-      seedRandom(dateCreated, { global: true });
+      seedRandom(dateCreated(), { global: true });
       const seededRandom = getRandomInt(total);
       return getCoin(seededRandom, pageSize).then(({ payload }) => {
         return {
           coin: {
             ...payload,
-            dateCreated,
+            dateCreated: dateCreated(),
             numismaticsTotalForDay: total,
             seededRandom,
           },

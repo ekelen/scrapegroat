@@ -35,11 +35,11 @@ const App = () => {
         <Header />
         {!!groat && <Groat groatData={groat} />}
         {!!groatError && (
-          <div>
+          <div className="groat-data">
             Sorry, no groats today. Reason: <em>{groatError.toString()}</em>
           </div>
         )}
-        {groatLoading && <div>Loading...</div>}
+        {groatLoading && <div className="groat-data loading">Loading...</div>}
       </main>
       <Footer />
     </React.StrictMode>

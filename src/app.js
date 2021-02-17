@@ -4,6 +4,7 @@ import { render } from "react-dom";
 import Footer from "./Footer.jsx";
 import Groat from "./Groat.jsx";
 import Header from "./Header.jsx";
+import Spinner from "./Spinner.jsx";
 
 const GROAT_ENDPOINT = "https://www.ersk.me/groats";
 
@@ -25,7 +26,9 @@ const App = () => {
           setGroatError(error);
           setGroat(null);
         })
-        .finally(() => setGroatLoading(false));
+        .finally(() => {
+          setGroatLoading(false);
+        });
     }
   }, [groat, groatLoading, groatError]);
 
@@ -35,11 +38,15 @@ const App = () => {
         <Header />
         {!!groat && <Groat groatData={groat} />}
         {!!groatError && (
-          <div className="groat-data">
+          <div className="dynamic-content">
             Sorry, no groats today. Reason: <em>{groatError.toString()}</em>
           </div>
         )}
-        {groatLoading && <div className="groat-data loading">Loading...</div>}
+        {groatLoading && (
+          <div className="dynamic-content loading">
+            <Spinner />
+          </div>
+        )}
       </main>
       <Footer />
     </React.StrictMode>

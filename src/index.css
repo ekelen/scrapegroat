@@ -22,7 +22,8 @@ body {
   align-items: flex-end;
   justify-content: center;
 
-  /* background: radial-gradient(hsla(50, 30%, 90%, 1), hsla(50, 30%, 50%, 1)); */
+  /* background: radial-gradient(hsla(50, 30%, 90%, 1), hsla(50, 30%, 80%, 1)); */
+  background-color: #eee;
 }
 
 main {
@@ -91,25 +92,47 @@ a:not(:first-child) {
   padding-left: 0.6em;
 }
 
-.dynamic-content {
+.groat-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.groat-images {
+  flex-wrap: nowrap;
+  display: flex;
+  padding: 0.66rem;
   width: 100%;
-  /* height: 250px; */
+  justify-content: center;
+  align-items: flex-end;
+  height: calc(100px + 2rem);
+}
+
+.groat-images > img {
+  display: block;
+  padding: 1rem;
+  height: 100px;
+  filter: saturate(0%) sepia(40%) saturate(200%) contrast(130%) brightness(110%);
+  mix-blend-mode: multiply;
+}
+
+.content-main {
   position: relative;
-  border: 2px solid red;
-  /* box-shadow: 0 0 0 2px rgba(12, 12, 12, 0.1); */
-
-  /* padding: 14px; */
+  width: 100%;
+  margin: 20px auto;
 }
-
-.dynamic-content .content-box {
-  background: #ddd;
+.content-main .content-box {
+  height: auto;
+  overflow: hidden;
   padding: 20px;
-  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.05);
+  background: #fff;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.4);
 }
-.dynamic-content .content-box:before,
-.dynamic-content .content-box:after {
+
+.content-main .content-box:before,
+.content-main .content-box:after {
   content: "";
-  height: 2px;
+  height: 4px;
   position: absolute;
   left: 0;
   right: 0;
@@ -137,91 +160,14 @@ a:not(:first-child) {
     100% 0%
   );
 }
-.dynamic-content .content-box:before {
-  background-color: white;
+.content-main .content-box:before {
+  background-color: #eee;
   top: 0;
 }
-.dynamic-content .content-box:after {
-  background-color: w#ccc;
+.content-main .content-box:after {
+  background-color: #fff;
   bottom: -2px;
-}
-
-.groat-text {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.groat-images {
-  flex-wrap: nowrap;
-  display: flex;
-  padding: 0.66rem;
-  width: 100%;
-  justify-content: center;
-  align-items: flex-end;
-  height: calc(100px + 2rem);
-}
-
-.groat-images > img {
-  display: block;
-  padding: 1rem;
-  height: 100px;
-  filter: saturate(0%) sepia(40%) saturate(200%) contrast(130%) brightness(110%);
-  mix-blend-mode: multiply;
-}
-
-.content-main {
-  position: relative;
-  width: 400px;
-  margin: 40px auto;
-
-  .content-box {
-    height: auto;
-    overflow: hidden;
-    padding: 20px;
-    background: $main-color;
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.05);
-
-    &:before,
-    &:after {
-      content: "";
-      height: 2px;
-      position: absolute;
-      left: 0;
-      right: 0;
-      -webkit-clip-path: polygon(
-        0% 0%,
-        5% 100%,
-        10% 0%,
-        15% 100%,
-        20% 0%,
-        25% 100%,
-        30% 0%,
-        35% 100%,
-        40% 0%,
-        45% 100%,
-        50% 0%,
-        55% 100%,
-        60% 0%,
-        65% 100%,
-        70% 0%,
-        75% 100%,
-        80% 0%,
-        85% 100%,
-        90% 0%,
-        95% 100%,
-        100% 0%
-      );
-    }
-    &:before {
-      background-color: $bg-color;
-      top: 0;
-    }
-    &:after {
-      background-color: $main-color;
-      bottom: -2px;
-    }
-  }
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.05);
 }
 
 /* On large screen:           */
@@ -229,10 +175,6 @@ a:not(:first-child) {
 /* - coin images are larger   */
 /* - bold text does not break */
 @media screen and (min-width: 600px) {
-  .dynamic-content {
-    height: 350px;
-  }
-
   .groat-images {
     height: calc(200px + 2rem);
   }

@@ -17,18 +17,14 @@ body {
   padding: 1rem;
   min-height: calc(100vh - 4rem);
 
-  display: flex;
-  flex-flow: column;
-  align-items: flex-end;
-  justify-content: center;
-
   background-color: #eee;
+  overflow-x: hidden;
 }
 
 main {
   width: 100%;
   max-width: 100%;
-  min-height: 70%;
+  min-height: 80%;
   position: relative;
 
   display: flex;
@@ -38,12 +34,12 @@ main {
 }
 
 footer {
-  margin-top: auto;
-  line-height: 1.25;
+  margin-top: 2rem;
+  line-height: 1.6;
   width: 100%;
 
-  color: hsl(0, 0%, 40%);
-  font-size: small;
+  color: hsl(0, 0%, 30%);
+  font-size: smaller;
   font-family: "Goudy Old Style", "Garamond", serif;
 }
 
@@ -95,6 +91,7 @@ a:not(:first-child) {
   position: relative;
   width: 100%;
   margin: 10px auto;
+  filter: drop-shadow(-2px 6px 4px rgba(50, 50, 0, 0.3));
 }
 
 .content-main .content-box {
@@ -109,16 +106,39 @@ a:not(:first-child) {
   justify-content: flex-end;
 
   background: #fff;
-  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.4);
 }
 
-.content-main .content-box:before,
-.content-main .content-box:after {
+/* Torn paper effect from https://codepen.io/dsm-webdsigner */
+.content-main .content-box::before,
+.content-main .content-box::after {
   content: "";
-  height: 4px;
+
   position: absolute;
   left: 0;
   right: 0;
+  clip-path: polygon(
+    0% 0%,
+    5% 100%,
+    10% 0%,
+    15% 100%,
+    20% 0%,
+    25% 100%,
+    30% 0%,
+    35% 100%,
+    40% 0%,
+    45% 100%,
+    50% 0%,
+    55% 100%,
+    60% 0%,
+    65% 100%,
+    70% 0%,
+    75% 100%,
+    80% 0%,
+    85% 100%,
+    90% 0%,
+    95% 100%,
+    100% 0%
+  );
   -webkit-clip-path: polygon(
     0% 0%,
     5% 100%,
@@ -143,14 +163,15 @@ a:not(:first-child) {
     100% 0%
   );
 }
-.content-main .content-box:before {
+.content-main .content-box::before {
+  height: 5px;
   background-color: #eee;
-  top: 0;
+  top: -1px;
 }
-.content-main .content-box:after {
+.content-main .content-box::after {
+  height: 5px;
   background-color: #fff;
-  bottom: -2px;
-  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.05);
+  bottom: -4px;
 }
 
 .groat-text {
@@ -186,7 +207,6 @@ a:not(:first-child) {
   .content-main .content-box {
     height: 350px;
     padding: 20px;
-    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.4);
   }
 
   .groat-images {

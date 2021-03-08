@@ -1,12 +1,12 @@
-import React, { Fragment } from "react";
+import React from "react";
 import img from "./svg/coins.svg";
 
 const Spinner = () => {
   return (
-    <Fragment>
+    <div className="wrapper">
       <div className="loader"></div>
       <img src={img} alt="coin spinner" className="coins" />
-    </Fragment>
+    </div>
   );
 };
 

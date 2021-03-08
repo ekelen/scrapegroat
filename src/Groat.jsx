@@ -3,7 +3,7 @@ import React from "react";
 const Groat = ({ groatData }) => {
   const { name, region, date, source, imgSrcObv, imgSrcRev } = groatData;
   return (
-    <div className="dynamic-content">
+    <>
       <div className="groat-images">
         {imgSrcObv && <img src={imgSrcObv} alt={imgSrcObv} />}
         {imgSrcRev && <img src={imgSrcRev} alt={imgSrcObv} />}
@@ -20,7 +20,7 @@ const Groat = ({ groatData }) => {
           </a>
         </p>
       </div>
-    </div>
+    </>
   );
 };
 

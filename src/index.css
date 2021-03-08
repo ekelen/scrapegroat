@@ -1,9 +1,9 @@
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
   font-family: "historicalmedium", Garamond, "Goudy Old Style", Georgia,
     "Times New Roman", Times, serif;
-  margin: 0;
-  padding: 0;
 }
 
 html {
@@ -21,6 +21,8 @@ body {
   flex-flow: column;
   align-items: flex-end;
   justify-content: center;
+
+  background-color: #eee;
 }
 
 main {
@@ -63,7 +65,7 @@ h1 .date-string {
 }
 
 p {
-  margin-bottom: 0.6rem;
+  line-height: 1.5;
 }
 
 a {
@@ -89,49 +91,111 @@ a:not(:first-child) {
   padding-left: 0.6em;
 }
 
-.dynamic-content {
-  width: 100%;
-  height: 250px;
+.content-main {
   position: relative;
+  width: 100%;
+  margin: 10px auto;
+}
+
+.content-main .content-box {
+  overflow: hidden;
+  height: 300px;
+  padding: 10px;
+  margin-top: auto;
+  margin-bottom: 0px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  background: #fff;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.4);
+}
+
+.content-main .content-box:before,
+.content-main .content-box:after {
+  content: "";
+  height: 4px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  -webkit-clip-path: polygon(
+    0% 0%,
+    5% 100%,
+    10% 0%,
+    15% 100%,
+    20% 0%,
+    25% 100%,
+    30% 0%,
+    35% 100%,
+    40% 0%,
+    45% 100%,
+    50% 0%,
+    55% 100%,
+    60% 0%,
+    65% 100%,
+    70% 0%,
+    75% 100%,
+    80% 0%,
+    85% 100%,
+    90% 0%,
+    95% 100%,
+    100% 0%
+  );
+}
+.content-main .content-box:before {
+  background-color: #eee;
+  top: 0;
+}
+.content-main .content-box:after {
+  background-color: #fff;
+  bottom: -2px;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.05);
 }
 
 .groat-text {
+  margin-top: auto;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 .groat-images {
   flex-wrap: nowrap;
   display: flex;
-  padding: 0.66rem;
   width: 100%;
   justify-content: center;
-  align-items: flex-end;
-  height: calc(100px + 2rem);
+  height: calc(100px + 16px + 5px);
+  margin-top: 20px;
 }
 
 .groat-images > img {
   display: block;
-  padding: 1rem;
   height: 100px;
+  margin: 5px 8px 16px;
+  filter: saturate(0%) sepia(40%) saturate(200%) contrast(130%) brightness(110%);
+  mix-blend-mode: multiply;
 }
 
 /* On large screen:           */
 /*                            */
 /* - coin images are larger   */
 /* - bold text does not break */
+/* - more padding             */
 @media screen and (min-width: 600px) {
-  .dynamic-content {
+  .content-main .content-box {
     height: 350px;
+    padding: 20px;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.4);
   }
 
   .groat-images {
-    height: calc(200px + 2rem);
+    height: calc(200px + 16px + 5px);
   }
 
   .groat-images > img {
     height: 200px;
+    margin: 5px 15px 16px;
   }
 
   strong {

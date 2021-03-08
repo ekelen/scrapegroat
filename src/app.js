@@ -11,7 +11,7 @@ const GROAT_ENDPOINT = "https://www.ersk.me/groats";
 const App = () => {
   const [groatLoading, setGroatLoading] = useState(false);
   const [groat, setGroat] = useState(null);
-  const [groatError, setGroatError] = useState(null);
+  const [groatError, setGroatError] = useState("");
 
   useEffect(() => {
     if (!groat && !groatError && !groatLoading) {
@@ -36,17 +36,18 @@ const App = () => {
     <React.StrictMode>
       <main>
         <Header />
-        {!!groat && <Groat groatData={groat} />}
-        {!!groatError && (
-          <div className="dynamic-content">
-            Sorry, no groats today. Reason: <em>{groatError.toString()}</em>
+        <div className="content-main">
+          <div className="content-box">
+            {groat && <Groat groatData={groat} />}
+            {groatError && (
+              <p>
+                Sorry, no groats today. Reason:{" "}
+                <em>{groatError ? groatError.toString() : "Unknown..."}</em>
+              </p>
+            )}
+            {groatLoading && <Spinner />}
           </div>
-        )}
-        {groatLoading && (
-          <div className="dynamic-content loading">
-            <Spinner />
-          </div>
-        )}
+        </div>
       </main>
       <Footer />
     </React.StrictMode>

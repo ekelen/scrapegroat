@@ -21,6 +21,8 @@ body {
   flex-flow: column;
   align-items: flex-end;
   justify-content: center;
+
+  /* background: radial-gradient(hsla(50, 30%, 90%, 1), hsla(50, 30%, 50%, 1)); */
 }
 
 main {
@@ -91,8 +93,56 @@ a:not(:first-child) {
 
 .dynamic-content {
   width: 100%;
-  height: 250px;
+  /* height: 250px; */
   position: relative;
+  /* box-shadow: 0 0 0 2px rgba(12, 12, 12, 0.1); */
+
+  /* padding: 14px; */
+}
+
+.dynamic-content .content-box {
+  background: #ddd;
+  padding: 20px;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.05);
+}
+.dynamic-content .content-box:before,
+.dynamic-content .content-box:after {
+  content: "";
+  height: 2px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  -webkit-clip-path: polygon(
+    0% 0%,
+    5% 100%,
+    10% 0%,
+    15% 100%,
+    20% 0%,
+    25% 100%,
+    30% 0%,
+    35% 100%,
+    40% 0%,
+    45% 100%,
+    50% 0%,
+    55% 100%,
+    60% 0%,
+    65% 100%,
+    70% 0%,
+    75% 100%,
+    80% 0%,
+    85% 100%,
+    90% 0%,
+    95% 100%,
+    100% 0%
+  );
+}
+.dynamic-content .content-box:before {
+  background-color: white;
+  top: 0;
+}
+.dynamic-content .content-box:after {
+  background-color: w#ccc;
+  bottom: -2px;
 }
 
 .groat-text {
@@ -115,6 +165,62 @@ a:not(:first-child) {
   display: block;
   padding: 1rem;
   height: 100px;
+  filter: saturate(0%) sepia(40%) saturate(200%) contrast(130%) brightness(110%);
+  mix-blend-mode: multiply;
+}
+
+.content-main {
+  position: relative;
+  width: 400px;
+  margin: 40px auto;
+
+  .content-box {
+    height: auto;
+    overflow: hidden;
+    padding: 20px;
+    background: $main-color;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.05);
+
+    &:before,
+    &:after {
+      content: "";
+      height: 2px;
+      position: absolute;
+      left: 0;
+      right: 0;
+      -webkit-clip-path: polygon(
+        0% 0%,
+        5% 100%,
+        10% 0%,
+        15% 100%,
+        20% 0%,
+        25% 100%,
+        30% 0%,
+        35% 100%,
+        40% 0%,
+        45% 100%,
+        50% 0%,
+        55% 100%,
+        60% 0%,
+        65% 100%,
+        70% 0%,
+        75% 100%,
+        80% 0%,
+        85% 100%,
+        90% 0%,
+        95% 100%,
+        100% 0%
+      );
+    }
+    &:before {
+      background-color: $bg-color;
+      top: 0;
+    }
+    &:after {
+      background-color: $main-color;
+      bottom: -2px;
+    }
+  }
 }
 
 /* On large screen:           */

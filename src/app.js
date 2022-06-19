@@ -6,7 +6,7 @@ import Groat from "./Groat.jsx";
 import Header from "./Header.jsx";
 import Spinner from "./Spinner.jsx";
 
-const GROAT_ENDPOINT = "https://www.ersk.me/groats";
+const GROAT_ENDPOINT = ".netlify/functions/get-coin";
 
 const App = () => {
   const [groatLoading, setGroatLoading] = useState(false);
@@ -17,10 +17,15 @@ const App = () => {
     if (!groat && !groatError && !groatLoading) {
       setGroatLoading(true);
       fetch(GROAT_ENDPOINT)
-        .then((result) => result.json())
-        .then(({ coin, error }) => {
-          setGroatError(error);
-          setGroat(coin);
+        .then((result) => {
+          return result.json();
+        })
+        .then((result) => {
+          if (result.error) {
+            setGroatError(result.error);
+            return;
+          }
+          setGroat(result.coin.payload);
         })
         .catch((error) => {
           setGroatError(error);

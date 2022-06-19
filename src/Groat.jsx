@@ -11,8 +11,8 @@ const Groat = ({ groatData }) => {
       <div className="groat-text">
         <p>
           You are given one <strong>{name + " "}</strong>
-          in the region of <strong>{region}</strong> sometime between the years
-          of <strong>{date}</strong>.
+          in the region of <strong>{region}</strong>{date && <>{" "}sometime between the years
+          of <strong>{date}</strong></>}
         </p>
         <p>
           <a href={source} alt={`Source: ${source}`} className="external">

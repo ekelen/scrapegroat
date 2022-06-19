@@ -1,6 +1,6 @@
-const got = require("got");
-const seedRandom = require("seedrandom");
 const { JSDOM } = require("jsdom");
+const got = require("got");
+const SeedRandom = require("seedrandom");
 
 const getValidCoinIdFromString = (str = "") =>
   str.match(/[0-9]+\.[0-9]+\.[0-9]+/g);
@@ -15,8 +15,8 @@ const getToday = () => {
 };
 const dateCreated = () => getToday().toISOString();
 
-const getRandomInt = (max) => {
-  return Math.floor(Math.random() * Math.floor(max));
+const getFromRange = (max, random) => {
+  return Math.floor(random * Math.floor(max));
 };
 
 /**
@@ -28,6 +28,7 @@ const firstPass = () => {
   return got(NUMISMATIC_CATALOG_URL).then((response) => {
     const dom = new JSDOM(response.body);
     const totalHitsDiv = dom.window.document.querySelector(".paging_div");
+
     const { textContent = "" } = totalHitsDiv;
     const hitsPattern = /Displaying records (?<skip>[0-9]+) to (?<pageLimit>[0-9]+) of (?<total>[0-9]+) total results/;
     const {
@@ -62,6 +63,8 @@ const parseCoinNode = (coinNode) => {
     fullNameNode.textContent;
   const idMatch = getValidCoinIdFromString(fullName) || [];
   id = idMatch[0] || "";
+
+  // Should have used the JSON manifest available at https://numismatics.org/search/manifest/{id}
   source = `http://numismatics.org/collection/${id && id + "?lang=en"}`;
 
   name =
@@ -121,29 +124,35 @@ const getCoin = (position, pageSize) => {
 };
 
 /**
- * @returns {Promise} – resolved Promise with value with keys "error", "coin"
+ * @returns {Promise} – resolved Promise in Netlify serverless function-friendly format
  */
-module.exports.main = async () => {
-  return firstPass()
-    .then((result) => {
-      const {
-        payload: { total, pageSize },
-      } = result;
-      seedRandom(dateCreated(), { global: true });
-      const seededRandom = getRandomInt(total);
-      return getCoin(seededRandom, pageSize).then(({ payload }) => {
-        return {
-          coin: {
-            ...payload,
-            dateCreated: dateCreated(),
-            numismaticsTotalForDay: total,
-            seededRandom,
-          },
-          error: null,
-        };
-      });
-    })
-    .catch((error) => {
-      return { error: error.message, coin: null };
-    });
+exports.handler = async () => {
+  try {
+    const result = await firstPass();
+    const {
+      payload: { total, pageSize },
+    } = result;
+    const random = new SeedRandom(dateCreated());
+    const seededRandom = getFromRange(total, random());
+
+    const payload = await getCoin(seededRandom, pageSize);
+    const coinResult = {
+      statusCode: 200,
+      body: JSON.stringify({
+        coin: {
+          ...payload,
+          dateCreated: dateCreated(),
+          numismaticsTotalForDay: total,
+          seededRandom,
+        },
+      }),
+    };
+    return coinResult;
+  } catch (error) {
+    console.error(error);
+    return {
+      statusCode: error?.statusCode || 500,
+      body: JSON.stringify({ error: error?.message || "Unknown error ☹️" }),
+    };
+  }
 };

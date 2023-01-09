@@ -10,11 +10,12 @@ const NUMISMATIC_CATALOG_URL =
 
 const getToday = () => {
   const date = new Date();
-  console.info(`Date: ${date.toLocaleString()}`);
   date.setHours(0, 0, 0, 0);
+  console.info(`Date: ${date.toLocaleString()}`);
   return date;
 };
-const dateCreated = () => getToday().toISOString();
+
+const dateCreated = () => getToday().getTime();
 
 const getFromRange = (max, random) => {
   return Math.floor(random * Math.floor(max));
@@ -110,8 +111,10 @@ exports.handler = async () => {
     const {
       payload: { total, pageSize },
     } = result;
-    const random = new SeedRandom(dateCreated());
+    const todayMs = dateCreated();
+    const random = new SeedRandom(todayMs);
     const seededRandom = getFromRange(total, random());
+    console.info(`Seeded random: ${seededRandom}`);
 
     const payload = await getCoin(seededRandom, pageSize);
     const coinResult = {
@@ -119,7 +122,7 @@ exports.handler = async () => {
       body: JSON.stringify({
         coin: {
           ...payload,
-          dateCreated: dateCreated(),
+          dateCreated: todayMs,
           numismaticsTotalForDay: total,
           seededRandom,
         },

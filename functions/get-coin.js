@@ -10,6 +10,7 @@ const NUMISMATIC_CATALOG_URL =
 
 const getToday = () => {
   const date = new Date();
+  console.info(`Date: ${date.toLocaleString()}`);
   date.setHours(0, 0, 0, 0);
   return date;
 };
@@ -30,7 +31,8 @@ const firstPass = () => {
     const totalHitsDiv = dom.window.document.querySelector(".paging_div");
 
     const { textContent = "" } = totalHitsDiv;
-    const hitsPattern = /Displaying records (?<skip>[0-9]+) to (?<pageLimit>[0-9]+) of (?<total>[0-9]+) total results/;
+    const hitsPattern =
+      /Displaying records (?<skip>[0-9]+) to (?<pageLimit>[0-9]+) of (?<total>[0-9]+) total results/;
     const {
       groups: { total, skip, pageLimit },
     } = textContent.match(hitsPattern);
@@ -47,59 +49,35 @@ const firstPass = () => {
  * @returns {Promise} - Promise with coin data payload
  */
 const parseCoinNode = (coinNode) => {
-  let name = "";
   let id = "";
-  let date = "";
   let imgSrcObv = "";
   let imgSrcRev = "";
-  let denomination = "";
   let source = "";
-  let region = "";
-  let fullName = "";
+  let label = "";
 
   let fullNameNode = null;
-  fullName =
+  label =
     (fullNameNode = coinNode.querySelector("h4", "a")) !== null &&
     fullNameNode.textContent;
-  const idMatch = getValidCoinIdFromString(fullName) || [];
+  const idMatch = getValidCoinIdFromString(label) || [];
   id = idMatch[0] || "";
 
-  // Should have used the JSON manifest available at https://numismatics.org/search/manifest/{id}
+  // Should have maybe? used the JSON manifest available at https://numismatics.org/search/manifest/{id}
+  // const jsonSource = `https://numismatics.org/search/manifest/${id}?lang=en`;
   source = `http://numismatics.org/collection/${id && id + "?lang=en"}`;
 
-  name =
-    fullName && id ? fullName.slice(0, (id.length + 1) * -1) : fullName || id;
+  label = (label || "").slice(0, (id.length + 1) * -1);
   const [obv = "", rev = ""] = Object.values(
     coinNode.querySelectorAll(".side-thumbnail")
   ).map((c) => c.attributes["src"]["nodeValue"]);
   imgSrcObv = obv;
   imgSrcRev = rev;
-  const cellSelectorResults = [...coinNode.querySelectorAll("dt")];
-  const dateSibling =
-    cellSelectorResults.find((el) => el.textContent === "Date") || {};
-  const {
-    nextSibling: { textContent: dateText = "" } = { textContent: "" },
-  } = dateSibling;
-  const denominationSibling =
-    cellSelectorResults.find((el) => el.textContent === "Denomination") || {};
-  const {
-    nextSibling: { textContent: denominationText = "" } = { textContent: "" },
-  } = denominationSibling;
-  date = dateText;
-  denomination = denominationText;
-  name = !date ? name : name.slice(0, name.indexOf(date) - 2);
-  region = name.slice(name.lastIndexOf(",")).slice(2);
-  name = !region ? name : name.slice(0, name.indexOf(region) - 2);
+
   const payload = {
-    name,
-    id,
-    date,
-    denomination,
+    label,
     imgSrcObv,
     imgSrcRev,
     source,
-    region,
-    fullName,
   };
   return { payload };
 };

@@ -1,7 +1,7 @@
 import React from "react";
 
 const Groat = ({ groatData }) => {
-  const { name, region, date, source, imgSrcObv, imgSrcRev } = groatData;
+  const { label, imgSrcObv, imgSrcRev, source } = groatData;
   return (
     <>
       <div className="groat-images">
@@ -10,9 +10,7 @@ const Groat = ({ groatData }) => {
       </div>
       <div className="groat-text">
         <p>
-          You are given one <strong>{name + " "}</strong>
-          in the region of <strong>{region}</strong>{date && <>{" "}sometime between the years
-          of <strong>{date}</strong></>}
+          You are given one <strong>{label}</strong>
         </p>
         <p>
           <a href={source} alt={`Source: ${source}`} className="external">

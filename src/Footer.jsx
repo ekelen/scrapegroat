@@ -15,8 +15,12 @@ const Footer = () => {
       <strong>gros tournois</strong> or <strong>groat of Tours</strong>, which
       was known as the <strong>groot</strong> (Dutch for <em>great</em> or{" "}
       <em>large</em>) in the Netherlands.
-      <a href="https://en.wikipedia.org/wiki/Groat_(coin)" className="external">
-        wikipedia
+      <a
+        href="https://en.wikipedia.org/wiki/Groat_(coin)"
+        target="_blank"
+        referrerPolicy="strict-origin-when-cross-origin"
+      >
+        [wikipedia]
       </a>
     </footer>
   );

@@ -13,8 +13,13 @@ const Groat = ({ groatData }) => {
           You are given one <strong>{label}</strong>
         </p>
         <p>
-          <a href={source} alt={`Source: ${source}`} className="external">
-            Source
+          <a
+            href={source}
+            alt={`Source: ${source}`}
+            target="_blank"
+            referrerPolicy="strict-origin-when-cross-origin"
+          >
+            [source]
           </a>
         </p>
       </div>

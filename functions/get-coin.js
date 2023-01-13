@@ -14,7 +14,7 @@ const getToday = () => {
   date.setHours(0, 0, 0, 0);
   return date;
 };
-const dateCreated = () => getToday().toISOString();
+const dateCreated = () => getToday().toLocaleDateString();
 
 const getFromRange = (max, random) => {
   return Math.floor(random * Math.floor(max));

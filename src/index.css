@@ -79,16 +79,6 @@ a {
   display: inline-block;
 }
 
-a.external {
-  background-image: url("https://en.wikipedia.org/w/skins/Vector/resources/skins.vector.styles/images/external-link-ltr-icon.svg?b4b84");
-  background-position: center right;
-  background-repeat: no-repeat;
-  background-size: 0.7rem;
-  background-position-y: -1px;
-  padding-right: 0.8rem;
-  line-height: 1.2;
-}
-
 a:not(:first-child) {
   padding-left: 0.6em;
 }
@@ -207,7 +197,6 @@ a:not(:first-child) {
 /* On large screen:           */
 /*                            */
 /* - coin images are larger   */
-/* - bold text does not break */
 /* - more padding             */
 @media screen and (min-width: 600px) {
   .content-main .content-box {
@@ -222,9 +211,5 @@ a:not(:first-child) {
   .groat-images > img {
     height: 200px;
     margin: 5px 15px 16px;
-  }
-
-  strong {
-    white-space: pre;
   }
 }

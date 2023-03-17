@@ -3,6 +3,10 @@
   publish = "dist"
   functions = "functions/"
 
+[dev]
+  command="npm run dev"
+  port=5000
+
 [functions]
   directory = "functions/"
   external_node_modules = ["got", "seedrandom"]

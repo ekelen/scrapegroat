@@ -31,11 +31,9 @@ const firstPass = () => {
     const totalHitsDiv = dom.window.document.querySelector(".paging_div");
 
     const { textContent = "" } = totalHitsDiv;
-    const hitsPattern =
-      /Displaying records (?<skip>[0-9]+) to (?<pageLimit>[0-9]+) of (?<total>[0-9]+) total results/;
-    const {
-      groups: { total, skip, pageLimit },
-    } = textContent.match(hitsPattern);
+
+    const hitsPattern = /([0-9]+)/gi;
+    const [total, skip, pageLimit] = textContent.match(hitsPattern);
     const pageSize = +pageLimit - +skip;
     return { payload: { total: +total, pageSize } };
   });

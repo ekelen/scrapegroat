@@ -6,7 +6,7 @@ const getValidCoinIdFromString = (str = "") =>
   str.match(/[0-9]+\.[0-9]+\.[0-9]+/g);
 
 const NUMISMATIC_CATALOG_URL =
-  "http://numismatics.org/search/results?q=%28denomination_facet%3A%22groat%22+OR+denomination_facet%3A%22gros%22+OR+denomination_facet%3A%22gros+tournois%22+OR+denomination_facet%3A%22groschen%22+OR+denomination_facet%3A%22grosso%22+OR+denomination_facet%3A%22grosso+tornese%22+OR+denomination_facet%3A%22groten%22+OR+denomination_facet%3A%22tournosgroschen%22%29+AND+department_facet%3A%22Medieval%22+AND+imagesavailable%3Atrue&lang=en";
+  "https://numismatics.org/search/results?q=groat+AND+imagesavailable%3Atrue";
 
 const getToday = () => {
   const date = new Date();
